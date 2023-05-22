@@ -39,8 +39,8 @@
 // app.get("/login",(req,res)=>{
 //   res.render("home/login"); // view는 설정했기에 따로 안적음
 // }) ; 
-
 const express = require('express');
+// const bodyParser = require('body-parser');
 const app = express();
 
 // 라우팅
@@ -50,7 +50,10 @@ const home = require("./src/routes/home"); //해당폴더있는 자바스크립�
 app.set("views","./src/views");
 app.set("view engine", "ejs");
 app.use(express.static(`${__dirname}/src/public`))
-
+app.use(express.json());
+// url 통해 전달되는 공백, 한글 문자 인식하게 해줌 
+app.use(express.urlencoded({extended:true})); // 미들웨어 등록 
+ 
 app.use("/",home);  // use-> 미들웨어를 등록해주는 메서드
 
 
