@@ -1,8 +1,6 @@
 // mvc의 controller 에 해당함
-const users={
-  id:["dudwo","개발"],
-  pw:["1234","123"],
-};
+const UserStorage=require('../../models/UserStorage'); 
+
 const output ={
    home:(req,res)=>{
     res.render("./home/index"); 
@@ -17,19 +15,27 @@ const process = {
   login : (req, res) => {
     const id=req.body.id,
     pw=req.body.pw;
-    
+    const users=UserStorage.getUsers("pw","id")
+    console.log();
+    const response = {};
     if(users.id.includes(id)){
       const idx = users.id.indexOf(id);
       if(users.pw[idx]===pw){
-        return res.json({ //프론트에 떤짐
-          success : true, // success :true 라는 object를 떤져줌
-        })
+        // return res.json({ //프론트에 떤짐
+        //   success : true, // success :true 라는 object를 떤져줌
+        // })
+        response.success=true;
+        response.msg="성공!";
+        return res.json(response)
       }
     }
-    return res.json({
-      success:false,
-      msg:"로그인에 실패",
-    })
+    response.success=false;
+    response.msg="로그인실패";
+    return res.json(response);
+    // return res.json({
+    //   // success:false,
+    //   msg:"로그인에 실패",
+    // })
   },
 }
 
